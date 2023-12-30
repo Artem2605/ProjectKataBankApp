@@ -10,7 +10,7 @@ import java.time.LocalTime;
 @Component
 public class TotalHistoryInfoContributor implements InfoContributor {
 
-    private Environment environment;
+    private final Environment environment;
 
     @Autowired
     public TotalHistoryInfoContributor(Environment environment) {

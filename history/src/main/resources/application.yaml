@@ -1,6 +1,8 @@
 spring:
   application:
     name: history-app
+    artifactId: @artifactId@
+    version: @version@
   profiles:
     active: local
 eureka:

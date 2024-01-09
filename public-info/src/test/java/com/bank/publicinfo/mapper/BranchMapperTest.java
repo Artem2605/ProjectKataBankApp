@@ -10,8 +10,8 @@ import org.mapstruct.factory.Mappers;
 import java.time.LocalTime;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class BranchMapperTest {
 
@@ -27,8 +27,8 @@ class BranchMapperTest {
     }
 
     @Test
-    @DisplayName("Перевод в сущность, успешный сценарий")
-    void toEntityPositive() {
+    @DisplayName("Мапинг в entity")
+    void toEntityTest() {
         entity.setId(86L);
         entity.setCity("Test city");
         entity.setAddress("Test address");
@@ -49,14 +49,14 @@ class BranchMapperTest {
     }
 
     @Test
-    @DisplayName("Перевод в сущность, dto is null")
-    void toEntityWithNullDto() {
+    @DisplayName("Мапинг в entity, на вход подан null")
+    void toEntityNullTest() {
         assertNull(mapper.toEntity(null));
     }
 
     @Test
-    @DisplayName("Перевод в дто, успешный сценарий")
-    void toDtoPositive() {
+    @DisplayName("Мапинг в dto")
+    void toDtoTest() {
         entity.setId(86L);
         entity.setCity("Test city");
         entity.setAddress("Test address");
@@ -76,14 +76,14 @@ class BranchMapperTest {
     }
 
     @Test
-    @DisplayName("Перевод в дто, entity is null")
-    void toDtoWithNullEntity() {
+    @DisplayName("Мапинг в dto, на вход подан null")
+    void toDtoNullTest() {
         assertNull(mapper.toDto(null));
     }
 
     @Test
-    @DisplayName("Объединение, успешный сценарий")
-    void mergeToEntityPositive() {
+    @DisplayName("Слияние в entity")
+    void mergeToEntityTest() {
         entity.setId(86L);
         entity.setCity("Test city");
         entity.setAddress("Test address");
@@ -110,14 +110,14 @@ class BranchMapperTest {
     }
 
     @Test
-    @DisplayName("Объединение, dto and entity are null")
+    @DisplayName("Слияние в entity, на вход подан null")
     void mergeToEntityWithNullDtoAndEntity() {
         assertNull(mapper.mergeToEntity(null,null));
     }
 
     @Test
-    @DisplayName("Перевод в дто лист, успешный сценрий")
-    void toDtoListPositive() {
+    @DisplayName("Мапинг в dto лист")
+    void toDtoListTest() {
         BranchEntity entity1 = new BranchEntity();
         BranchEntity entity2 = new BranchEntity();
         entity.setId(1L);
@@ -137,8 +137,8 @@ class BranchMapperTest {
     }
 
     @Test
-    @DisplayName("Перевод в дто лист, EntityList is null")
-    void toDtoListWithNullEntityList() {
+    @DisplayName("Мапинг в dto лист, на вход подан null")
+    void toDtoListNullTest() {
         assertNull(mapper.toDtoList(null));
     }
 }

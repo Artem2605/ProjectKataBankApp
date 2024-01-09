@@ -2,7 +2,6 @@ package com.bank.publicinfo.mapper;
 
 import com.bank.publicinfo.dto.BankDetailsDto;
 import com.bank.publicinfo.entity.BankDetailsEntity;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,8 +10,8 @@ import org.mapstruct.factory.Mappers;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class BankDetailsMapperTest {
 
@@ -28,8 +27,8 @@ class BankDetailsMapperTest {
     }
 
     @Test
-    @DisplayName("Перевод в сущность, успешный сценарий")
-    void toEntityPositive() {
+    @DisplayName("Мапинг в entity")
+    void toEntityTest() {
         entity.setId(1L);
         entity.setName("Test name");
         entity.setKpp(11L);
@@ -54,14 +53,14 @@ class BankDetailsMapperTest {
     }
 
     @Test
-    @DisplayName("Перевод в сущность, dto is null")
-    void toEntityWithNullDto() {
+    @DisplayName("Мапинг в entity, на вход подан null")
+    void toEntityNullTest() {
         assertNull(mapper.toEntity(null));
     }
 
     @Test
-    @DisplayName("Перевод в дто, успешный сценарий")
-    void toDtoPositive() {
+    @DisplayName("Мапинг в dto")
+    void toDtoTest() {
         entity.setId(1L);
         entity.setName("Test name");
         entity.setKpp(11L);
@@ -85,14 +84,14 @@ class BankDetailsMapperTest {
     }
 
     @Test
-    @DisplayName("Перевод в дто, entity is null")
-    void toDtoWithNullEntity() {
+    @DisplayName("мапинг в dto, на вход подан null")
+    void toDtoNullTest() {
         assertNull(mapper.toDto(null));
     }
 
     @Test
-    @DisplayName("Объединение, успешный сценарий")
-    void mergeToEntityPositive() {
+    @DisplayName("Слияние в entity")
+    void mergeToEntityTest() {
         entity.setId(1L);
         entity.setName("Test name");
         entity.setKpp(11L);
@@ -125,14 +124,14 @@ class BankDetailsMapperTest {
     }
 
     @Test
-    @DisplayName("Объединение, dto and entity are null")
-    void mergeToEntityWithNullDtoAndEntity() {
+    @DisplayName("Слияние в entity, на вход подан null")
+    void mergeToEntityNullTest() {
         assertNull(mapper.mergeToEntity(null,null));
     }
 
     @Test
-    @DisplayName("Перевод в дто лист, успешный сценрий")
-    void toDtoListPositive() {
+    @DisplayName("Мапинг в dto лист")
+    void toDtoListTest() {
         BankDetailsEntity entity1 = new BankDetailsEntity();
         BankDetailsEntity entity2 = new BankDetailsEntity();
         entity.setId(1L);
@@ -152,8 +151,8 @@ class BankDetailsMapperTest {
     }
 
     @Test
-    @DisplayName("Перевод в дто лист, EntityList is null")
-    void toDtoListWithNullEntityList() {
+    @DisplayName("Мапинг в dto лист, на вход подан null")
+    void toDtoListNullTest() {
         assertNull(mapper.toDtoList(null));
     }
 }

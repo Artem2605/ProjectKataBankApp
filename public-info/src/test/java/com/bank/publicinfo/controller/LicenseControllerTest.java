@@ -23,7 +23,9 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -70,8 +72,8 @@ class LicenseControllerTest {
     }
 
     @Test
-    @DisplayName("Чтение одного по id, успешный сценарий")
-    void readByIdPositive() throws Exception {
+    @DisplayName("Чтение одного по id, позитивный сценарий")
+    void readByIdPositiveTest() throws Exception {
         Mockito.doReturn(dto).when(service).findById(1L);
 
         mockMvc.perform(get("/license/{id}", 1L))
@@ -81,7 +83,7 @@ class LicenseControllerTest {
 
     @Test
     @DisplayName("Чтение одного по несуществующему id, негативный сценарий")
-    void readByIdNegative() throws Exception {
+    void readByIdNegativeTest() throws Exception {
         Mockito.doReturn(null).when(service).findById(9L);
 
         mockMvc.perform(get("/license/{id}", 9L))
@@ -90,7 +92,7 @@ class LicenseControllerTest {
 
     @Test
     @DisplayName("Чтение всех по id, позитивный сценарий")
-    void readAllByIdPositive() throws Exception {
+    void readAllByIdPositiveTest() throws Exception {
         LicenseDto dto1 = new LicenseDto();
         LicenseDto dto2 = new LicenseDto();
         dto1.setId(2L);
@@ -107,7 +109,7 @@ class LicenseControllerTest {
 
     @Test
     @DisplayName("Чтение всех по некорректному листу id, негативный сценарий")
-    void readAllByIdNegative() throws Exception {
+    void readAllByIdNegativeTest() throws Exception {
         Mockito.doReturn(Collections.emptyList()).when(service).findAllById(List.of(78L,56L,536L));
 
         mockMvc.perform(get("/license/read/all")
@@ -116,8 +118,8 @@ class LicenseControllerTest {
     }
 
     @Test
-    @DisplayName("Создание нового, успешный сценарий")
-    void createPositive() throws Exception {
+    @DisplayName("Создание нового, позитивный сценарий")
+    void createPositiveTest() throws Exception {
         String licenseDtoJson = objectMapper.writeValueAsString(dto);
 
         Mockito.doReturn(dto).when(service).create(dto);
@@ -130,8 +132,8 @@ class LicenseControllerTest {
     }
 
     @Test
-    @DisplayName("Создание нового, входной дто is null")
-    void createWithNullDto() throws Exception {
+    @DisplayName("Создание нового, входной дто is null, негативный сценарий")
+    void createWithNullDtoTest() throws Exception {
         String licenseDtoJson = objectMapper.writeValueAsString(dto);
 
         Mockito.doReturn(null).when(service).create(dto);
@@ -143,8 +145,8 @@ class LicenseControllerTest {
     }
 
     @Test
-    @DisplayName("Обновление данных, успешный сценарий")
-    void updatePositive() throws Exception {
+    @DisplayName("Обновление данных, позитивный сценарий")
+    void updatePositiveTest() throws Exception {
         LicenseDto dto1 = new LicenseDto(
                 6L,
                 new Byte[]{9,9,9,9,9,9,9,9},
@@ -163,7 +165,7 @@ class LicenseControllerTest {
 
     @Test
     @DisplayName("Обновление данных о несуществующем объекте, негативный сценарий")
-    void updateNegative() throws  Exception {
+    void updateNegativeTest() throws  Exception {
         String licenseDtoJson = objectMapper.writeValueAsString(dto);
 
         Mockito.doReturn(null).when(service).update(91L, dto);
@@ -173,21 +175,4 @@ class LicenseControllerTest {
                         .content(licenseDtoJson))
                 .andExpect(status().isOk());
     }
-
-    /*
-    @Test
-    @DisplayName("обновление dto по несуществующему id, негативный сценарийй")
-    void updateByNonExistingIdNegativeTest() throws Exception {
-        Mockito.when(service.update(1L, licenseDto2)).thenReturn(null);
-
-        String licenseJson = objectMapper.writeValueAsString(licenseDto2);
-
-        mockMvc.perform(put("/license/update/{id}", 1L)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(licenseJson))
-                .andExpect(status().isOk());
-
-        verify(service, times(1)).update(1L, licenseDto2);
-    }
-     */
 }

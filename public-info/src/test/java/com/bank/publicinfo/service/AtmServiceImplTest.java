@@ -14,17 +14,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 
 @ExtendWith(MockitoExtension.class)
 class AtmServiceImplTest {
@@ -51,8 +53,8 @@ class AtmServiceImplTest {
     }
 
     @Test
-    @DisplayName("Поиск всех банкоматов по id, успешный сценарий")
-    void findAllByIdPositive() {
+    @DisplayName("Поиск всех по листу id, позитивный сценарий")
+    void findAllByIdPositiveTest() {
         AtmEntity entity1 = new AtmEntity();
         AtmEntity entity2 = new AtmEntity();
         entity.setId(1L);
@@ -75,8 +77,8 @@ class AtmServiceImplTest {
     }
 
     @Test
-    @DisplayName("Поиск всех банкоматов по некорректному листу id, выброс исключения")
-    void findAllByIdShouldThrowsEntityNotFoundException () {
+    @DisplayName("Поиск всех по некорректному листу id, негативный сценарий")
+    void findAllByNonExistIdListNegativeTest () {
         AtmEntity entity1 = new AtmEntity();
         AtmEntity entity2 = new AtmEntity();
         entity.setId(1L);
@@ -93,8 +95,8 @@ class AtmServiceImplTest {
     }
 
     @Test
-    @DisplayName("Добавление нового банкомата, успешный сценарий")
-    void createPositive() {
+    @DisplayName("Создание нового объекта, позитивный сценарий")
+    void createPositiveTest() {
         dto.setId(2L);
         dto.setAddress("Test address");
         dto.setBranch(new BranchDto());
@@ -118,8 +120,8 @@ class AtmServiceImplTest {
     }
 
     @Test
-    @DisplayName("Обновление данных о банкомате, успешный сценарий")
-    void updatePositive() {
+    @DisplayName("Обновление данных, позитивный сценарий")
+    void updatePositiveTest() {
         dto.setId(45L);
         dto.setAddress("New test address");
         dto.setBranch(new BranchDto());
@@ -157,16 +159,16 @@ class AtmServiceImplTest {
     }
 
     @Test
-    @DisplayName("Обновление данных о банкомате по несуществующему id, выброс исключения")
-    void updateShouldThrowsEntityNotFoundException() {
+    @DisplayName("Обновление данных по несуществующему id, негативный сценарий")
+    void updateNonExistIdNegativeTest() {
         doThrow(EntityNotFoundException.class).when(repository).findById(any());
 
         assertThrows(EntityNotFoundException.class, () -> service.update(any(), dto));
     }
 
     @Test
-    @DisplayName("Поиск одного по id, успешный сценарий")
-    void findByIdPositive() {
+    @DisplayName("Поиск одного по id, позитивный сценарий")
+    void findByIdPositiveTest() {
         entity.setId(1L);
         dto.setId(1L);
 
@@ -179,8 +181,8 @@ class AtmServiceImplTest {
     }
 
     @Test
-    @DisplayName("Поиск одного банкомата по несуществующему id, выброс исключения")
-    void findByIdShouldThrowsEntityNotFoundException() {
+    @DisplayName("Поиск одного по несуществующему id, негативный сценарий")
+    void findByNonExistIdNegativeTest() {
         doThrow(EntityNotFoundException.class).when(repository).findById(any());
 
         assertThrows(EntityNotFoundException.class, () -> service.findById(1L));

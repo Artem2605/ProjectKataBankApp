@@ -4,7 +4,6 @@ import com.bank.publicinfo.dto.AtmDto;
 import com.bank.publicinfo.dto.BranchDto;
 import com.bank.publicinfo.entity.AtmEntity;
 import com.bank.publicinfo.entity.BranchEntity;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,9 +12,8 @@ import org.mapstruct.factory.Mappers;
 import java.time.LocalTime;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class AtmMapperTest {
 
@@ -49,8 +47,8 @@ class AtmMapperTest {
     }
 
     @Test
-    @DisplayName("Перевод в сущность, успешный сценарий")
-    void toEntityPositive() {
+    @DisplayName("Мапинг в entity")
+    void toEntityTest() {
         entity.setId(1L);
         entity.setAddress("Test address");
         entity.setBranch(branchEntity);
@@ -71,14 +69,14 @@ class AtmMapperTest {
     }
 
     @Test
-    @DisplayName("Перевод в сущность, dto is null")
-    void toEntityWithNullDto() {
+    @DisplayName("Мапинг в entity, на вход подан null")
+    void toEntityNullTest() {
         assertNull(mapper.toEntity(null));
     }
 
     @Test
-    @DisplayName("Перевод в дто, успешный сценарий")
-    void toDtoPositive() {
+    @DisplayName("Мапинг в dto")
+    void toDtoTest() {
         entity.setId(1L);
         entity.setAddress("Test address");
         entity.setBranch(branchEntity);
@@ -98,14 +96,14 @@ class AtmMapperTest {
     }
 
     @Test
-    @DisplayName("Перевод в дто, entity is null")
-    void toDtoWithNullEntity() {
+    @DisplayName("Мапинг в dto, на вход подан null")
+    void toDtoNullTest() {
         assertNull(mapper.toDto(null));
     }
 
     @Test
-    @DisplayName("Объединение, успешный сценарий")
-    void mergeToEntityPositive() {
+    @DisplayName("Слияние в entity")
+    void mergeToEntityTest() {
         dto.setId(1L);
         dto.setAddress("New test address");
         dto.setBranch(branchDto);
@@ -132,14 +130,14 @@ class AtmMapperTest {
     }
 
     @Test
-    @DisplayName("Объединение, dto and entity are null")
-    void mergeToEntityWithNullDtoAndEntity() {
+    @DisplayName("Слияние в entity, на вход подан null")
+    void mergeToEntityNullTest() {
         assertNull(mapper.mergeToEntity(null,null));
     }
 
     @Test
-    @DisplayName("Перевод в дто лист, успешный сценрий")
-    void toDtoListPositive() {
+    @DisplayName("Мапинг в dto лист")
+    void toDtoListTest() {
         AtmEntity entity1 = new AtmEntity();
         AtmEntity entity2 = new AtmEntity();
         entity.setId(1L);
@@ -159,8 +157,8 @@ class AtmMapperTest {
     }
 
     @Test
-    @DisplayName("Перевод в дто лист, EntityList is null")
-    void toDtoListWithNullEntityList() {
+    @DisplayName("Мапинг в dto лист, на вход подан null")
+    void toDtoListNullTest() {
         assertNull(mapper.toDtoList(null));
     }
 }

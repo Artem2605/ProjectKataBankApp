@@ -23,8 +23,9 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -71,8 +72,8 @@ class CertificateControllerTest {
     }
 
     @Test
-    @DisplayName("Чтение одного по id, успешный сценарий")
-    void readByIdPositive() throws Exception {
+    @DisplayName("Чтение одного по id, позитивный сценарий")
+    void readByIdPositiveTest() throws Exception {
         Mockito.doReturn(dto).when(service).findById(1L);
 
         mockMvc.perform(get("/certificate/{id}", 1L))
@@ -82,7 +83,7 @@ class CertificateControllerTest {
 
     @Test
     @DisplayName("Чтение одного по несуществующему id, негативный сценарий")
-    void readByIdNegative() throws Exception {
+    void readByIdNegativeTest() throws Exception {
         Mockito.doReturn(null).when(service).findById(9L);
 
         mockMvc.perform(get("/certificate/{id}", 9L))
@@ -91,7 +92,7 @@ class CertificateControllerTest {
 
     @Test
     @DisplayName("Чтение всех по id, позитивный сценарий")
-    void readAllByIdPositive() throws Exception {
+    void readAllByIdPositiveTest() throws Exception {
         CertificateDto dto1 = new CertificateDto();
         CertificateDto dto2 = new CertificateDto();
         dto1.setId(2L);
@@ -108,7 +109,7 @@ class CertificateControllerTest {
 
     @Test
     @DisplayName("Чтение всех по некорректному листу id, негативный сценарий")
-    void readAllByIdNegative() throws Exception {
+    void readAllByIdNegativeTest() throws Exception {
         Mockito.doReturn(Collections.emptyList()).when(service).findAllById(List.of(78L,56L,536L));
 
         mockMvc.perform(get("/certificate/read/all")
@@ -117,8 +118,8 @@ class CertificateControllerTest {
     }
 
     @Test
-    @DisplayName("Создание нового, успешный сценарий")
-    void createPositive() throws Exception {
+    @DisplayName("Создание нового, позитивный сценарий")
+    void createPositiveTest() throws Exception {
         String certificateDtoJson = objectMapper.writeValueAsString(dto);
 
         Mockito.doReturn(dto).when(service).create(dto);
@@ -131,8 +132,8 @@ class CertificateControllerTest {
     }
 
     @Test
-    @DisplayName("Создание нового, входной дто is null")
-    void createWithNullDto() throws Exception {
+    @DisplayName("Создание нового, входной дто is null, негативный сценарий")
+    void createWithNullDtoTest() throws Exception {
         String certificateDtoJson = objectMapper.writeValueAsString(dto);
 
         Mockito.doReturn(null).when(service).create(dto);
@@ -144,8 +145,8 @@ class CertificateControllerTest {
     }
 
     @Test
-    @DisplayName("Обновление данных, успешный сценарий")
-    void updatePositive() throws Exception {
+    @DisplayName("Обновление данных, позитивный сценарий")
+    void updatePositiveTest() throws Exception {
         CertificateDto dto1 = new CertificateDto(
                 2L,
                 new Byte[]{9,5,7,6,8,1,1,4},
@@ -164,7 +165,7 @@ class CertificateControllerTest {
 
     @Test
     @DisplayName("Обновление данных о несуществующем объекте, негативный сценарий")
-    void updateNegative() throws  Exception {
+    void updateNegativeTest() throws  Exception {
         String certificateDtoJson = objectMapper.writeValueAsString(dto);
 
         Mockito.doReturn(null).when(service).update(91L, dto);

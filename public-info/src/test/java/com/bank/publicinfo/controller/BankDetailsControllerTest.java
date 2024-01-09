@@ -22,7 +22,9 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -63,8 +65,8 @@ class BankDetailsControllerTest {
     }
 
     @Test
-    @DisplayName("Чтение одного по id, успешный сценарий")
-    void readByIdPositive() throws Exception {
+    @DisplayName("Чтение одного по id, позитивный сценарий")
+    void readByIdPositiveTest() throws Exception {
         Mockito.doReturn(dto).when(service).findById(5L);
 
         mockMvc.perform(get("/bank/details/{id}", 5L))
@@ -74,7 +76,7 @@ class BankDetailsControllerTest {
 
     @Test
     @DisplayName("Чтение одного по несуществующему id, негативный сценарий")
-    void readByIdNegative() throws Exception {
+    void readByIdNegativeTest() throws Exception {
         Mockito.doReturn(null).when(service).findById(99L);
 
         mockMvc.perform(get("/bank/details/{id}", 99L))
@@ -83,7 +85,7 @@ class BankDetailsControllerTest {
 
     @Test
     @DisplayName("Чтение всех по id, позитивный сценарий")
-    void readAllByIdPositive() throws Exception {
+    void readAllByIdPositiveTest() throws Exception {
         BankDetailsDto dto1 = new BankDetailsDto();
         BankDetailsDto dto2 = new BankDetailsDto();
         dto1.setId(2L);
@@ -100,7 +102,7 @@ class BankDetailsControllerTest {
 
     @Test
     @DisplayName("Чтение всех по некорректному листу id, негативный сценарий")
-    void readAllByIdNegative() throws Exception {
+    void readAllByIdNegativeTest() throws Exception {
         Mockito.doReturn(Collections.emptyList()).when(service).findAllById(List.of(78L,56L,536L));
 
         mockMvc.perform(get("/bank/details/read/all")
@@ -109,8 +111,8 @@ class BankDetailsControllerTest {
     }
 
     @Test
-    @DisplayName("Создание нового, успешный сценарий")
-    void createPositive() throws Exception {
+    @DisplayName("Создание нового, позитивный сценарий")
+    void createPositiveTest() throws Exception {
         String BankDetailsDtoJson = objectMapper.writeValueAsString(dto);
 
         Mockito.doReturn(dto).when(service).create(dto);
@@ -123,8 +125,8 @@ class BankDetailsControllerTest {
     }
 
     @Test
-    @DisplayName("Создание нового, входной дто is null")
-    void createWithNullDto() throws Exception {
+    @DisplayName("Создание нового, входной дто is null, негативный сценарий")
+    void createWithNullDtoTest() throws Exception {
         String BankDetailsDtoJson = objectMapper.writeValueAsString(dto);
 
         Mockito.doReturn(null).when(service).create(dto);
@@ -136,8 +138,8 @@ class BankDetailsControllerTest {
     }
 
     @Test
-    @DisplayName("Обновление данных, успешный сценарий")
-    void updatePositive() throws Exception {
+    @DisplayName("Обновление данных, позитивный сценарий")
+    void updatePositiveTest() throws Exception {
         BankDetailsDto dto1 = new BankDetailsDto(
                 22L,
                 789L,
@@ -161,7 +163,7 @@ class BankDetailsControllerTest {
 
     @Test
     @DisplayName("Обновление данных о несуществующем объекте, негативный сценарий")
-    void updateNegative() throws  Exception {
+    void updateNegativeTest() throws  Exception {
         String BankDetailsDtoJson = objectMapper.writeValueAsString(dto);
 
         Mockito.doReturn(null).when(service).update(91L, dto);

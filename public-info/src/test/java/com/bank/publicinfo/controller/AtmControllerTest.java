@@ -23,7 +23,9 @@ import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -71,8 +73,8 @@ class AtmControllerTest {
     }
 
     @Test
-    @DisplayName("Чтение одного по id, успешный сценарий")
-    void readByIdPositive() throws Exception {
+    @DisplayName("Чтение одного по id, позитивный сценарий")
+    void readByIdPositiveTest() throws Exception {
         Mockito.doReturn(atmDto).when(service).findById(1L);
 
         mockMvc.perform(get("/atm/{id}", 1L))
@@ -82,7 +84,7 @@ class AtmControllerTest {
 
     @Test
     @DisplayName("Чтение одного по несуществующему id, негативный сценарий")
-    void readByIdNegative() throws Exception {
+    void readByIdNegativeTest() throws Exception {
         Mockito.doReturn(null).when(service).findById(7L);
 
         mockMvc.perform(get("/atm/{id}", 7L))
@@ -91,7 +93,7 @@ class AtmControllerTest {
 
     @Test
     @DisplayName("Чтение всех по id, позитивный сценарий")
-    void readAllByIdPositive() throws Exception {
+    void readAllByIdPositiveTest() throws Exception {
         AtmDto atmDto1 = new AtmDto();
         AtmDto atmDto2 = new AtmDto();
         atmDto1.setId(2L);
@@ -108,7 +110,7 @@ class AtmControllerTest {
 
     @Test
     @DisplayName("Поиск всех по некорректному листу id, негативный сценарий")
-    void readAllByIdNegative() throws Exception {
+    void readAllByIdNegativeTest() throws Exception {
         Mockito.doReturn(Collections.emptyList()).when(service).findAllById(List.of(9L,45L,14L));
 
         mockMvc.perform(get("/atm/read/all")
@@ -117,8 +119,8 @@ class AtmControllerTest {
     }
 
     @Test
-    @DisplayName("Создание нового банкомата, успешный сценарий")
-    void createPositive() throws Exception {
+    @DisplayName("Создание нового банкомата, позитивный сценарий")
+    void createPositiveTest() throws Exception {
         String atmDtoJson = objectMapper.writeValueAsString(atmDto);
 
         Mockito.doReturn(atmDto).when(service).create(atmDto);
@@ -131,8 +133,8 @@ class AtmControllerTest {
     }
 
     @Test
-    @DisplayName("Создание нового банкомата, входной дто is null")
-    void createWithNullDto() throws Exception {
+    @DisplayName("Создание нового банкомата, входной дто is null, негативный сценарий")
+    void createWithNullDtoTest() throws Exception {
         String atmDtoJson = objectMapper.writeValueAsString(atmDto);
 
         Mockito.doReturn(null).when(service).create(atmDto);
@@ -144,8 +146,8 @@ class AtmControllerTest {
     }
 
     @Test
-    @DisplayName("Обновление данных о банкомате, успешный сценарий")
-    void updatePositive() throws Exception {
+    @DisplayName("Обновление данных о банкомате, позитивный сценарий")
+    void updatePositiveTest() throws Exception {
         AtmDto atmDto1 = new AtmDto(
                 2L,
                 "New test address",
@@ -167,7 +169,7 @@ class AtmControllerTest {
 
     @Test
     @DisplayName("Обновление данных о несуществующем банкомате, негативный сценарий")
-    void updateNegative() throws  Exception {
+    void updateNegativeTest() throws  Exception {
         String atmDtoJson = objectMapper.writeValueAsString(atmDto);
 
         Mockito.doReturn(null).when(service).update(1L, atmDto);
@@ -175,6 +177,6 @@ class AtmControllerTest {
         mockMvc.perform(put("/atm/update/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(atmDtoJson))
-                .andExpect(status().isOk());
+                        .andExpect(status().isOk());
     }
 }

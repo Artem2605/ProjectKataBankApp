@@ -6,7 +6,6 @@ import com.bank.publicinfo.mapper.BranchMapper;
 import com.bank.publicinfo.repository.BranchRepository;
 import com.bank.publicinfo.service.impl.BranchServiceImpl;
 import com.bank.publicinfo.util.EntityNotFoundSupplier;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,9 +20,10 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
 @ExtendWith(MockitoExtension.class)
@@ -51,8 +51,8 @@ class BranchServiceImplTest {
     }
 
     @Test
-    @DisplayName("Поиск всех по id, успешный сценарий")
-    void findAllById() {
+    @DisplayName("Поиск всех по листу id, позитивный сценарий")
+    void findAllByIdPositiveTest() {
         BranchEntity entity1 = new BranchEntity();
         BranchEntity entity2 = new BranchEntity();
         entity.setId(1L);
@@ -75,8 +75,8 @@ class BranchServiceImplTest {
     }
 
     @Test
-    @DisplayName("Поиск всех по некорректному листу id, выброс исключения")
-    void findAllByIdShouldThrowsEntityNotFoundException () {
+    @DisplayName("Поиск всех по некорректному листу id, негативный сценарий")
+    void findAllByNonExistIdListNegativeTest () {
         BranchEntity entity1 = new BranchEntity();
         BranchEntity entity2 = new BranchEntity();
         entity.setId(1L);
@@ -93,8 +93,8 @@ class BranchServiceImplTest {
     }
 
     @Test
-    @DisplayName("Добавление нового, успешный сценарий")
-    void createPositive() {
+    @DisplayName("Создание нового объекта, позитивный сценарий")
+    void createPositiveTest() {
         dto.setId(9L);
         dto.setAddress("Test address");
         dto.setStartOfWork(LocalTime.of(10,0,0,0));
@@ -118,8 +118,8 @@ class BranchServiceImplTest {
     }
 
     @Test
-    @DisplayName("Обновление данных, успешный сценарий")
-    void updatePositive() {
+    @DisplayName("Обновление данных, позитивный сценарий")
+    void updatePositiveTest() {
         dto.setId(69L);
         dto.setAddress("New test address");
         dto.setStartOfWork(LocalTime.of(9,0,0,0));
@@ -157,16 +157,16 @@ class BranchServiceImplTest {
     }
 
     @Test
-    @DisplayName("Обновление данных по несуществующему id, выброс исключения")
-    void updateShouldThrowsEntityNotFoundException() {
+    @DisplayName("Обновление данных по несуществующему id, негативный сценарий")
+    void updateNonExistIdNegativeTest() {
         Mockito.doThrow(EntityNotFoundException.class).when(repository).findById(any());
 
         assertThrows(EntityNotFoundException.class, () -> service.update(any(), dto));
     }
 
     @Test
-    @DisplayName("Поиск одного по id, успешный сценарий")
-    void findByIdPositive() {
+    @DisplayName("Поиск одного по id, позитивный сценарий")
+    void findByIdPositiveTest() {
         entity.setId(1L);
         dto.setId(1L);
 
@@ -179,8 +179,8 @@ class BranchServiceImplTest {
     }
 
     @Test
-    @DisplayName("Поиск одного по несуществующему id, выброс исключения")
-    void findByIdShouldThrowsEntityNotFoundException() {
+    @DisplayName("Поиск одного по несуществующему id, негативный сценарий")
+    void findByNonExistIdNegativeTest() {
         Mockito.doThrow(EntityNotFoundException.class).when(repository).findById(any());
 
         assertThrows(EntityNotFoundException.class, () -> service.findById(1L));

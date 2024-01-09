@@ -62,12 +62,6 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>net.lbruun.springboot</groupId>
-            <artifactId>preliquibase-spring-boot-autoconfigure</artifactId>
-            <version>${preliquibase-spring-boot-autoconfigure.version}</version>
-        </dependency>
-
     </dependencies>
 
     <build>

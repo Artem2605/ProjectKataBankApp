@@ -22,7 +22,9 @@ import java.time.LocalTime;
 import java.util.Collections;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -61,8 +63,8 @@ class BranchControllerTest {
     }
 
     @Test
-    @DisplayName("Чтение одного по id, успешный сценарий")
-    void readByIdPositive() throws Exception {
+    @DisplayName("Чтение одного по id, позитивный сценарий")
+    void readByIdPositiveTest() throws Exception {
         Mockito.doReturn(dto).when(service).findById(1L);
 
         mockMvc.perform(get("/branch/{id}", 1L))
@@ -72,7 +74,7 @@ class BranchControllerTest {
 
     @Test
     @DisplayName("Чтение одного по несуществующему id, негативный сценарий")
-    void readByIdNegative() throws Exception {
+    void readByIdNegativeTest() throws Exception {
         Mockito.doReturn(null).when(service).findById(9845L);
 
         mockMvc.perform(get("/branch/{id}", 9845L))
@@ -81,7 +83,7 @@ class BranchControllerTest {
 
     @Test
     @DisplayName("Чтение всех по id, позитивный сценарий")
-    void readAllByIdPositive() throws Exception {
+    void readAllByIdPositiveTest() throws Exception {
         BranchDto dto1 = new BranchDto();
         BranchDto dto2 = new BranchDto();
         dto1.setId(2L);
@@ -98,7 +100,7 @@ class BranchControllerTest {
 
     @Test
     @DisplayName("Поиск всех по некорректному листу id, негативный сценарий")
-    void readAllByIdNegative() throws Exception {
+    void readAllByIdNegativeTest() throws Exception {
         Mockito.doReturn(Collections.emptyList()).when(service).findAllById(List.of(4L,5L,6L));
 
         mockMvc.perform(get("/branch/read/all")
@@ -107,8 +109,8 @@ class BranchControllerTest {
     }
 
     @Test
-    @DisplayName("Создание нового, успешный сценарий")
-    void createPositive() throws Exception {
+    @DisplayName("Создание нового, позитивный сценарий")
+    void createPositiveTest() throws Exception {
         String branchDtoJson = objectMapper.writeValueAsString(dto);
 
         Mockito.doReturn(dto).when(service).create(dto);
@@ -121,8 +123,8 @@ class BranchControllerTest {
     }
 
     @Test
-    @DisplayName("Создание нового, входной дто is null")
-    void createWithNullDto() throws Exception {
+    @DisplayName("Создание нового, входной дто is null, негативный сценарий")
+    void createWithNullDtoTest() throws Exception {
         String branchDtoJson = objectMapper.writeValueAsString(dto);
 
         Mockito.doReturn(null).when(service).create(dto);
@@ -134,8 +136,8 @@ class BranchControllerTest {
     }
 
     @Test
-    @DisplayName("Обновление данных, успешный сценарий")
-    void updatePositive() throws Exception {
+    @DisplayName("Обновление данных, позитивный сценарий")
+    void updatePositiveTest() throws Exception {
         BranchDto dto1 = new BranchDto();
         dto1.setId(2L);
         String branchDto1Json = objectMapper.writeValueAsString(dto1);
@@ -151,7 +153,7 @@ class BranchControllerTest {
 
     @Test
     @DisplayName("Обновление данных о несуществующем объекте, негативный сценарий")
-    void updateNegative() throws  Exception {
+    void updateNegativeTest() throws  Exception {
         String branchDtoJson = objectMapper.writeValueAsString(dto);
 
         Mockito.doReturn(null).when(service).update(1L, dto);

@@ -51,8 +51,8 @@ class LicenseMapperTest {
     }
 
     @Test
-    @DisplayName("Перевод в сущность, успешный сценарий")
-    void toEntityPositive() {
+    @DisplayName("Мапинг в entity")
+    void toEntityTest() {
         entity.setId(64L);
         entity.setPhotoLicense(new Byte[] {0,1,2,3,4,5});
         entity.setBankDetails(bankDetailsEntity);
@@ -67,14 +67,14 @@ class LicenseMapperTest {
     }
 
     @Test
-    @DisplayName("Перевод в сущность, dto is null")
-    void toEntityWithNullDto() {
+    @DisplayName("Мапинг в entity, на вход подан null")
+    void toEntityNullTest() {
         assertNull(mapper.toEntity(null));
     }
 
     @Test
-    @DisplayName("Перевод в дто, успешный сценарий")
-    void toDtoPositive() {
+    @DisplayName("Мапинг в dto")
+    void toDtoTest() {
         entity.setId(64L);
         entity.setPhotoLicense(new Byte[] {0,1,2,3,4,5});
         entity.setBankDetails(bankDetailsEntity);
@@ -88,14 +88,14 @@ class LicenseMapperTest {
     }
 
     @Test
-    @DisplayName("Перевод в дто, entity is null")
-    void toDtoWithNullEntity() {
+    @DisplayName("Мапинг в dto, на вход подан null")
+    void toDtoNullTest() {
         assertNull(mapper.toDto(null));
     }
 
     @Test
-    @DisplayName("Объединение, успешный сценарий")
-    void mergeToEntityPositive() {
+    @DisplayName("Слияние в entity")
+    void mergeToEntityTest() {
         entity.setId(64L);
         entity.setPhotoLicense(new Byte[] {0,1,2,3,4,5});
         entity.setBankDetails(bankDetailsEntity);
@@ -113,14 +113,14 @@ class LicenseMapperTest {
     }
 
     @Test
-    @DisplayName("Объединение, dto and entity are null")
-    void mergeToEntityWithNullDtoAndEntity() {
+    @DisplayName("Слияние в entity, на взод подан null")
+    void mergeToEntityNullTest() {
         assertNull(mapper.mergeToEntity(null,null));
     }
 
     @Test
-    @DisplayName("Перевод в дто лист, успешный сценрий")
-    void toDtoListPositive() {
+    @DisplayName("Мапинг в dto лист")
+    void toDtoListTest() {
         LicenseEntity entity1 = new LicenseEntity();
         LicenseEntity entity2 = new LicenseEntity();
         entity.setId(1L);
@@ -140,8 +140,8 @@ class LicenseMapperTest {
     }
 
     @Test
-    @DisplayName("Перевод в дто лист, EntityList is null")
-    void toDtoListWithNullEntityList() {
+    @DisplayName("Мапинг в dto лист, на вход подан null")
+    void toDtoListNullTest() {
         assertNull(mapper.toDtoList(null));
     }
 }

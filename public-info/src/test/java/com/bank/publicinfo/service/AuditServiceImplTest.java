@@ -17,8 +17,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 @ExtendWith(MockitoExtension.class)
 class AuditServiceImplTest {
 
@@ -41,8 +41,8 @@ class AuditServiceImplTest {
     }
 
     @Test
-    @DisplayName("Поиск аудита по id, позитивный сценарий")
-    void findByIdPositive() {
+    @DisplayName("Поиск одного id, позитивный сценарий")
+    void findByIdPositiveTest() {
         entity.setId(1L);
         dto.setId(1L);
 
@@ -55,8 +55,8 @@ class AuditServiceImplTest {
     }
 
     @Test
-    @DisplayName("Поиск аудита по несуществующему id, выброс исключения")
-    void findByIdShouldThrowsEntityNotFoundException() {
+    @DisplayName("Поиск по несуществующему id, негативный сценарий")
+    void findByNonExistIdNegativeTest() {
         Mockito.doReturn(Optional.empty()).when(repository).findById(47L);
 
         assertThrows(EntityNotFoundException.class, () -> service.findById(47L));

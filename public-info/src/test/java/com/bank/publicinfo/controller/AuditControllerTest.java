@@ -54,8 +54,8 @@ class AuditControllerTest {
     }
 
     @Test
-    @DisplayName("Чтение одного по id, успешный сценарий")
-    void readPositive() throws Exception {
+    @DisplayName("Чтение одного по id, позитивный сценарий")
+    void readPositiveTest() throws Exception {
         Mockito.doReturn(dto).when(service).findById(1L);
 
         mockMvc.perform(get("/audit/{id}", 1L))
@@ -63,8 +63,8 @@ class AuditControllerTest {
     }
 
     @Test
-    @DisplayName("Чтение одного по несуществующему id, неготивный сценарий")
-    void readNegative() throws Exception {
+    @DisplayName("Чтение одного по несуществующему id, негативный сценарий")
+    void readNegativeTest() throws Exception {
         Mockito.doReturn(null).when(service).findById(8L);
 
         mockMvc.perform(get("/audit/{id}", 8L))

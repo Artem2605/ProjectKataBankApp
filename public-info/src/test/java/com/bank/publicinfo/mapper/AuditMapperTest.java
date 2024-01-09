@@ -2,7 +2,6 @@ package com.bank.publicinfo.mapper;
 
 import com.bank.publicinfo.dto.AuditDto;
 import com.bank.publicinfo.entity.AuditEntity;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,8 +9,8 @@ import org.mapstruct.factory.Mappers;
 
 import java.sql.Timestamp;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class AuditMapperTest {
 
@@ -35,8 +34,8 @@ class AuditMapperTest {
     }
 
     @Test
-    @DisplayName("Перевод в dto, успешный сценарий")
-    void toDtoPositive() {
+    @DisplayName("Мапинг в dto")
+    void toDtoTest() {
         AuditDto mappedAuditDto = mapper.toDto(entity);
 
         assertEquals(entity.getId(), mappedAuditDto.getId());
@@ -51,8 +50,8 @@ class AuditMapperTest {
     }
 
     @Test
-    @DisplayName("Перевод в dto, entity is null")
-    void toDtoWithNullEntity() {
+    @DisplayName("Мапинг в dto, на вход подан null")
+    void toDtoNullTest() {
         assertNull(mapper.toDto(null));
     }
 }

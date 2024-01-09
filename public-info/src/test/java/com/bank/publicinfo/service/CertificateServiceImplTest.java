@@ -8,7 +8,6 @@ import com.bank.publicinfo.mapper.CertificateMapper;
 import com.bank.publicinfo.repository.CertificateRepository;
 import com.bank.publicinfo.service.impl.CertificateServiceImpl;
 import com.bank.publicinfo.util.EntityNotFoundSupplier;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,9 +21,10 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 
 @ExtendWith(MockitoExtension.class)
@@ -52,8 +52,8 @@ class CertificateServiceImplTest {
     }
 
     @Test
-    @DisplayName("Поиск всех сертификатов по id, успешный сценарий")
-    void findAllByIdPositive() {
+    @DisplayName("Поиск всех по листу id, позитивный сценарий")
+    void findAllByIdPositiveTest() {
         CertificateEntity entity1 = new CertificateEntity();
         CertificateEntity entity2 = new CertificateEntity();
         entity.setId(1L);
@@ -76,8 +76,8 @@ class CertificateServiceImplTest {
     }
 
     @Test
-    @DisplayName("Поиск всех сертификатов по некорректному листу id, выброс исключения")
-    void findAllByIdShouldThrowsEntityNotFoundException () {
+    @DisplayName("Поиск всех по некорректному листу id, негативный сценарий")
+    void findAllByNonExistIdListNegativeTest () {
         CertificateEntity entity1 = new CertificateEntity();
         CertificateEntity entity2 = new CertificateEntity();
         entity.setId(1L);
@@ -94,8 +94,8 @@ class CertificateServiceImplTest {
     }
 
     @Test
-    @DisplayName("Добавление нового серитификата, успешный сценарий")
-    void createPositive() {
+    @DisplayName("Создание нового объекта, позитивный сценарий")
+    void createPositiveTest() {
         dto.setId(48L);
         dto.setBankDetails(new BankDetailsDto());
         dto.setPhotoCertificate(new Byte[] {0,1,2,3});
@@ -113,8 +113,8 @@ class CertificateServiceImplTest {
     }
 
     @Test
-    @DisplayName("Обновление данных о сертификате, успешный сценарий")
-    void updatePositive() {
+    @DisplayName("Обновление данных, позитивный сценарий")
+    void updatePositiveTest() {
         dto.setId(365L);
         dto.setBankDetails(new BankDetailsDto());
         dto.setPhotoCertificate(new Byte[] {0,1,2,3});
@@ -140,16 +140,16 @@ class CertificateServiceImplTest {
     }
 
     @Test
-    @DisplayName("Обновление данных о лицензии по несуществующему id, выброс исключения")
-    void updateShouldThrowsEntityNotFoundException() {
+    @DisplayName("Обновление данных по несуществующему id, негативный сценарий")
+    void updateNonExistIdNegativeTest() {
         Mockito.doThrow(EntityNotFoundException.class).when(repository).findById(any());
 
         assertThrows(EntityNotFoundException.class, () -> service.update(any(), dto));
     }
 
     @Test
-    @DisplayName("Поиск одного сертификата по id, успешный сценарий")
-    void findByIdPositive() {
+    @DisplayName("Поиск одного по id, позитивный сценарий")
+    void findByIdPositiveTest() {
         entity.setId(1L);
         dto.setId(1L);
 
@@ -162,8 +162,8 @@ class CertificateServiceImplTest {
     }
 
     @Test
-    @DisplayName("Поиск сертификата по несуществующему id, выброс исключения")
-    void findByIdShouldThrowsEntityNotFoundException() {
+    @DisplayName("Поиск одного по несуществующему id, негативный сценарий")
+    void findByNonExistIdNegativeTest() {
         Mockito.doThrow(EntityNotFoundException.class).when(repository).findById(any());
 
         assertThrows(EntityNotFoundException.class, () -> service.findById(1L));

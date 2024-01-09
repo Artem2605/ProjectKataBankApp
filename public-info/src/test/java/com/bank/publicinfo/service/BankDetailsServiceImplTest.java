@@ -1,15 +1,11 @@
 package com.bank.publicinfo.service;
 
-import com.bank.publicinfo.dto.AtmDto;
 import com.bank.publicinfo.dto.BankDetailsDto;
-import com.bank.publicinfo.dto.BranchDto;
 import com.bank.publicinfo.entity.BankDetailsEntity;
-import com.bank.publicinfo.entity.BranchEntity;
 import com.bank.publicinfo.mapper.BankDetailsMapper;
 import com.bank.publicinfo.repository.BankDetailsRepository;
 import com.bank.publicinfo.service.impl.BankDetailsServiceImpl;
 import com.bank.publicinfo.util.EntityNotFoundSupplier;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,10 +20,11 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 
 @ExtendWith(MockitoExtension.class)
 public class BankDetailsServiceImplTest {
@@ -54,8 +51,8 @@ public class BankDetailsServiceImplTest {
     }
 
     @Test
-    @DisplayName("Поиск всех по id, позитивный сценарий")
-    void findAllByIdPositive() {
+    @DisplayName("Поиск всех по листу id, позитивный сценарий")
+    void findAllByIdPositiveTest() {
         BankDetailsEntity entity1 = new BankDetailsEntity();
         BankDetailsEntity entity2 = new BankDetailsEntity();
         entity.setId(1L);
@@ -78,8 +75,8 @@ public class BankDetailsServiceImplTest {
     }
 
     @Test
-    @DisplayName("Поиск всех по некорректному листу id, выброс исключения")
-    void findAllByIdShouldThrowsEntityNotFoundException() {
+    @DisplayName("Поиск всех по некорректному листу id, негативный сценарий")
+    void findAllByNonExistIdListNegativeTest() {
         BankDetailsEntity entity1 = new BankDetailsEntity();
         BankDetailsEntity entity2 = new BankDetailsEntity();
         entity.setId(1L);
@@ -96,8 +93,8 @@ public class BankDetailsServiceImplTest {
     }
 
     @Test
-    @DisplayName("Добавление нового, успешный сценарий")
-    void createPositive() {
+    @DisplayName("Создание нового объекта, позитивный сценарий")
+    void createPositiveTest() {
         dto.setId(2L);
         dto.setBik(58L);
         dto.setCity("Test city");
@@ -125,8 +122,8 @@ public class BankDetailsServiceImplTest {
     }
 
     @Test
-    @DisplayName("Обновление информации, успешный сценарий")
-    void updatePositive() {
+    @DisplayName("Обновление данных, позитивный сценарий")
+    void updatePositiveTest() {
         dto.setId(999L);
         dto.setBik(63L);
         dto.setCity("New test city");
@@ -172,16 +169,16 @@ public class BankDetailsServiceImplTest {
     }
 
     @Test
-    @DisplayName("Обновление данных о банкомате по несуществующему id, выброс исключения")
-    void updateShouldThrowsEntityNotFoundException() {
+    @DisplayName("Обновление данных по несуществующему id, негативный сценарий")
+    void updateNonExistIdNegativeTest() {
         Mockito.doThrow(EntityNotFoundException.class).when(repository).findById(any());
 
         assertThrows(EntityNotFoundException.class, () -> service.update(any(), dto));
     }
 
     @Test
-    @DisplayName("Поиск одного по id, успешный исход")
-    void findByIdPositive() {
+    @DisplayName("Поиск одного по id, позитивный сценарий")
+    void findByIdPositiveTest() {
         entity.setId(1L);
         dto.setId(1L);
 
@@ -194,8 +191,8 @@ public class BankDetailsServiceImplTest {
     }
 
     @Test
-    @DisplayName("Поиск одного по несуществующему id, выброс исключения")
-    void findByIdShouldThrowsEntityNotFoundException() {
+    @DisplayName("Поиск одного по несуществующему id, негативный сценарий")
+    void findByNonExistIdNegativeTest() {
         Mockito.doThrow(EntityNotFoundException.class).when(repository).findById(any());
 
         assertThrows(EntityNotFoundException.class, () -> service.findById(1L));
